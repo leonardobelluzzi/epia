@@ -13,15 +13,15 @@ entrada = HOG(img,16);
 %Configuracao Rede
 %=============================================%
 %Neuronios na camada de entrada;
-nnEntrada = size(entrada,1);
+n = size(entrada,1);
 %Neuronios na camada de saida;
-nnSaida = 3;
+k = 3;
 %Neuronios na camada escondida;
-nnEscondida = round ((nnEntrada + nnSaida) /2);
+p = round ((n + k) /2);
 %Numero de epocas
-epocaMax = 10;
+epocaMax = 1000;
 %Taxa de aprendizado
-alpha  = 0.001;
+alpha  = 0.0001;
 %Decaimento alpha se 1 = (sem decaimento)
 alphaDecai = 1;
 %Erro minimo
@@ -30,12 +30,12 @@ erroMin = 0.001;
 
 %Geração Aleatórias de pesos
 %Bias
-pesoBiasEscondida = 1 - 2. * rand(1, nnEscondida);
-pesoBiasSaida = 1 - 2. * rand(1, nnSaida);
+pesoBiasEscondida = 1 - 2. * rand(1, p);
+pesoBiasSaida = 1 - 2. * rand(1, k);
 
 %Escondida
-pesoEscondida = 1 - 2. * rand(nnEntrada, nnEscondida);
-pesoSaida = 1 - 2. * rand(nnEscondida, nnSaida);
+pesoEscondida = 1 - 2. * rand(n, p);
+pesoSaida = 1 - 2. * rand(p, k);
 
 
 %SaidaEsperada
@@ -46,43 +46,43 @@ erroTotal = zeros(epocaMax);
 
 %Rede Algoritimo
 for epoca = 1: epocaMax
-    z_in = zeros (nnEscondida);
+    z_in = zeros (1,p);
     
-    for a = 1 : nnEscondida
-        for b = 1 : nnEntrada
-            z_in(a) = z_in(a) + entrada(b, 1) * pesoEscondida(b, a);
+    for pa = 1 : p
+        for na = 1 : n
+            z_in(pa) = z_in(pa) + entrada(na, 1) * pesoEscondida(na, pa);
         end
     end
-    for a = 1 : nnEscondida
-        z_in(a) = z_in(a) + 1 * pesoBiasEscondida(1, a);
+    for pa = 1 : p
+        z_in(pa) = z_in(pa) + 1 * pesoBiasEscondida(1, pa);
     end
     
     %Aplicar a função
-    z = zeros(nnEscondida);
-    for a = 1 : nnEscondida
-        z(a) = F(z_in(a));
+    z = zeros(1,p);
+    for pa = 1 : p
+        z(pa) = F(z_in(pa));
     end
     
-    y_in = zeros(nnSaida);
-    for a = 1 : nnSaida
-        for b = 1 : nnEscondida
-            y_in(a) = y_in(a) + z(b) * pesoSaida(b, a);
+    y_in = zeros(1,k);
+    for ka = 1 : k
+        for pa = 1 : p
+            y_in(ka) = y_in(ka) + z(pa) * pesoSaida(pa, ka);
         end
     end
-    for a = 1 : nnSaida
-        y_in(a) = y_in(a) + 1 * pesoBiasSaida(1, a);
+    for ka = 1 : k
+        y_in(ka) = y_in(ka) + 1 * pesoBiasSaida(1, ka);
     end
     
     %Aplicar a função
-    y = zeros(1,nnSaida);
-    for a = 1 : nnSaida
-        y(a) = G(y_in(a));
+    y = zeros(1,k);
+    for ka = 1 : k
+        y(ka) = G(y_in(ka));
     end
     
     %Erro Quadradico médio
-    erro_ind = zeros(1,nnSaida);
-    for a = 1 : nnSaida
-        erro_ind(a) = saidaEsp(a) - y(a);
+    erro_ind = zeros(1,k);
+    for ka = 1 : k
+        erro_ind(ka) = saidaEsp(ka) - y(ka);
     end
     erroDaEpoca = sum(abs(erro_ind));
     
@@ -95,9 +95,9 @@ for epoca = 1: epocaMax
     end
     
     %Ajustes
-    deltaK = zeros(1,nnSaida);
-    for a = 1 : nnSaida
-        deltaK(a) = erro_ind(a) * flinha(y_in(a));
+    deltaK = zeros(1,k);
+    for ka = 1 : k
+        deltaK(ka) = erro_ind(ka) * flinha(y_in(ka));
     end
     
     disp(['Época: ', num2str(epoca)]);
@@ -105,29 +105,68 @@ for epoca = 1: epocaMax
     disp(['SaidaEsp: ', num2str(saidaEsp)]);
     disp(['Erro Individual: ', num2str(erro_ind)]);
     disp(['Delta K ', num2str(deltaK)]);
+    disp(['Erro epoca', num2str(sum(erro_ind))]);
     %Saida
-    deltaPesoSaida = zeros(nnEscondida,nnSaida);
+    deltaPesoSaida = zeros(p,k);
     
-    for a = 1 : nnSaida
-        for b = 1 : nnEscondida
-            deltaPesoSaida(b,a) = alpha * deltaK(a) * z(b);
+    for ka = 1 : k
+        for pa = 1 : p
+            deltaPesoSaida(pa,ka) = alpha * deltaK(ka) * z(pa);
         end
     end
     
     %Bias Saida
-    for a = 1 : nnSaida
-        deltaPesoSaidaBias(a) = alpha * deltaK(a);
+    deltaPesoSaidaBias = zeros(1,k);
+    for a = 1 : k
+        deltaPesoSaidaBias(ka) = alpha * deltaK(ka);
     end
     
     
     %Escondida
-    deltaInJ = zeros(1,nnEscondida);
+    deltaInJ = zeros(1,p);
+    for pa = 1 : p
+        for ka = 1 : k
+            deltaInJ(1,pa) = deltaInJ(1,pa) + deltaK(ka) * pesoSaida(pa,ka);
+        end
+    end
     
+    deltaJ = zeros(1,p);
     
+    for pa = 1 : p
+        deltaJ(pa) = deltaInJ(pa) * flinha(z(pa));
+    end
+    
+    deltaPesoEscondida = zeros(n, p);
+    for na = 1 : n
+       for pa = 1 : p
+           deltaPesoEscondida(na, pa) = alpha * deltaJ(pa) * entrada(na,1);
+       end
+    end
     %Bias Escondida
+    deltaPesoBiasEscondida = zeros(1, p);
+    for pa = 1 : p
+        deltaPesoBiasEscondida(pa) = alpha * deltaJ(pa);
+    end
     
+    %Ajustar Rede
+    for na = 1 : n
+       for pa = 1 : p
+           pesoEscondida(na, pa) = pesoEscondida(na, pa) + deltaPesoEscondida(na, pa);
+       end
+    end
     
+     for ka = 1 : k
+        for pa = 1 : p
+            pesoSaida(pa,ka) = pesoSaida(pa,ka) + deltaPesoSaida(pa,ka);
+        end
+     end
     
+     for pa = 1 : p
+        pesoBiasEscondida(pa) = pesoBiasEscondida(pa) + deltaPesoBiasEscondida(pa);
+     end
     
+     for a = 1 : k
+        pesoBiasSaida(ka) = pesoBiasSaida(ka) + deltaPesoSaidaBias(ka);
+    end
     
 end
