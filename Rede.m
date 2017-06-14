@@ -15,7 +15,7 @@ entrada = HOG(img,16);
 %Neuronios na camada de entrada;
 n = size(entrada,1);
 %Neuronios na camada de saida;
-k = 3;
+k = 26;
 %Neuronios na camada escondida;
 p = round ((n + k) /2);
 %Numero de epocas

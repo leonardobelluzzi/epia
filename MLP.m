@@ -18,7 +18,35 @@ classdef MLP
     end
     
     methods
-        function result = Treinar(obj, dadosEntrada, linha, epocaMax, alpha, alphaDecai, erroMin, k)
+        function result = Treinar(obj, dadosEntrada, linha, epocaMax, alpha, alphaDecai, erroMin, k, fileID)
+            
+            saida = [[1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]; 
+                    [-1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1]];
+            
             %Entrada Pegar a entrada
             %================================================================================================================================%
             localIMG = '00001';
@@ -34,7 +62,7 @@ classdef MLP
             %Neuronios na camada de entrada;
             obj.n = size(obj.entrada,1);
             %Neuronios na camada de saida;
-            obj.k = 3;
+            obj.k = 26;
             %Neuronios na camada escondida;
             obj.p = round ((obj.n + obj.k) /2);
             %Numero de epocas
@@ -58,19 +86,81 @@ classdef MLP
 
             %erro
             erroTotal = zeros(obj.epocaMax);
-            
+            erros = 0;
             %Rede Algoritimo
             for epoca = 1: epocaMax
                 for i = 1:k
                     if(i ~= linha)
                         for j = 1:size(dadosEntrada, 2)
                             arquivo = dadosEntrada(i, j, 1);
-                            if contains(arquivo, "_58_") == 1
-                                saidaEsp = [1 -1 -1];
-                            elseif contains(arquivo, "_53_") == 1
-                                saidaEsp = [-1 1 -1];
-                            else
-                                saidaEsp = [-1 -1 1];
+                            saidaMatriz = 0;
+                            if contains(arquivo, "_A_") == 1
+                                saidaMatriz = 1;
+                                
+                            elseif contains(arquivo, "_B_") == 1                
+                                saidaMatriz = 2;
+                                
+                            elseif contains(arquivo, "_C_") == 1                
+                                saidaMatriz = 3;
+                                
+                            elseif contains(arquivo, "_D_") == 1                
+                                saidaMatriz = 4;
+                                
+                            elseif contains(arquivo, "_E_") == 1                
+                                saidaMatriz = 5;
+                                
+                            elseif contains(arquivo, "_F_") == 1                
+                                saidaMatriz = 6;
+                                
+                            elseif contains(arquivo, "_G_") == 1                
+                                saidaMatriz = 7;
+                                
+                            elseif contains(arquivo, "_H_") == 1                
+                                saidaMatriz = 8;
+                                
+                            elseif contains(arquivo, "_I_") == 1                
+                                saidaMatriz = 9;
+                                
+                            elseif contains(arquivo, "_J_") == 1                
+                                saidaMatriz = 10;
+                                
+                            elseif contains(arquivo, "_K_") == 1                
+                                saidaMatriz = 11;
+                                
+                            elseif contains(arquivo, "_L_") == 1                
+                                saidaMatriz = 12;
+                                
+                            elseif contains(arquivo, "_M_") == 1                
+                                saidaMatriz = 13;
+                                
+                            elseif contains(arquivo, "_N_") == 1                
+                                saidaMatriz = 14;
+                                
+                            elseif contains(arquivo, "_O_") == 1                
+                                saidaMatriz = 15;
+                                
+                            elseif contains(arquivo, "_P_") == 1                
+                                saidaMatriz = 16;
+                                
+                            elseif contains(arquivo, "_Q_") == 1                
+                                saidaMatriz = 17;
+                            elseif contains(arquivo, "_R_") == 1                
+                                saidaMatriz = 18;
+                            elseif contains(arquivo, "_S_") == 1                
+                                saidaMatriz = 19;
+                            elseif contains(arquivo, "_T_") == 1                
+                            elseif contains(arquivo, "_U_") == 1                
+                                saidaMatriz = 21;
+                            elseif contains(arquivo, "_V_") == 1                
+                                saidaMatriz = 22;
+                            elseif contains(arquivo, "_W_") == 1                
+                                saidaMatriz = 23;
+                            elseif contains(arquivo, "_X_") == 1                
+                                saidaMatriz = 24;
+                            elseif contains(arquivo, "_Y_") == 1                
+                                saidaMatriz = 25;
+                            elseif contains(arquivo, "_Z_") == 1                
+                                saidaMatriz = 26;
                             end
                             if(arquivo == "")
                                 continue;
@@ -115,7 +205,7 @@ classdef MLP
                             %Erro Quadradico médio
                             erro_ind = zeros(1,obj.k);
                             for ka = 1 : obj.k
-                                erro_ind(ka) = saidaEsp(ka) - y(ka);
+                                erro_ind(ka) = saida(saidaMatriz,ka) - y(ka);
                             end
                             erroDaEpoca = sum(abs(erro_ind));
 
@@ -129,7 +219,7 @@ classdef MLP
 
                             disp(['Época: ', num2str(epoca)]);
                             disp(['Saida: ', num2str(y)]);
-                            disp(['SaidaEsp: ', num2str(saidaEsp)]);
+                            disp(['SaidaEsp: ', num2str(saida(saidaMatriz))]);
                             disp(['Erro Individual: ', num2str(erro_ind)]);
                             disp(['Delta K ', num2str(deltaK)]);
                             disp(['Erro epoca', num2str(sum(erro_ind))]);
@@ -198,27 +288,138 @@ classdef MLP
                         end
                     end
                 end
+                erros = erros + 1;
                 %Caso atingir o erro minimo
                 if (erroDaEpoca < erroMin)
                     disp('A rede atingiu o erro minimo: ');
                     break;
                 end
             end
+            erroTot = 0;
             
+            for i=1:erros
+                erroTot = erroTot + erroTotal(i);
+            end
+            
+            erroTot = erroTot / erros;
+                
+            fprintf(fileID, strcat(num2str(erroTot),";"));
             result = obj;
         end
         
         function erro = Teste(obj, dadosEntrada, linha)
             ErroFold = 0;
             
+            saida = [[1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]; 
+                    [-1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1];
+                    [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1]];
+            
+            MatrizConfusao = zeros(26,26);
+            
             for j = 1:size(dadosEntrada, 2)
                 arquivo = dadosEntrada(linha, j, 1);
-                if contains(arquivo, "_58_") == 1
-                    saidaEsp = [1 -1 -1];
-                elseif contains(arquivo, "_53_") == 1
-                    saidaEsp = [-1 1 -1];
-                else
-                    saidaEsp = [-1 -1 1];
+                saidaMatriz = 0;
+                if contains(arquivo, "_A_") == 1
+                    saidaMatriz = 1;
+                    
+                elseif contains(arquivo, "_B_") == 1                
+                    saidaMatriz = 2;
+                    
+                elseif contains(arquivo, "_C_") == 1                
+                    saidaMatriz = 3;
+                    
+                elseif contains(arquivo, "_D_") == 1                
+                    saidaMatriz = 4;
+                    
+                elseif contains(arquivo, "_E_") == 1                
+                    saidaMatriz = 5;
+                    
+                elseif contains(arquivo, "_F_") == 1                
+                    saidaMatriz = 6;
+                    
+                elseif contains(arquivo, "_G_") == 1                
+                    saidaMatriz = 7;
+                    
+                elseif contains(arquivo, "_H_") == 1                
+                    saidaMatriz = 8;
+                    
+                elseif contains(arquivo, "_I_") == 1                
+                    saidaMatriz = 9;
+                    
+                elseif contains(arquivo, "_J_") == 1                
+                    saidaMatriz = 10;
+                    
+                elseif contains(arquivo, "_K_") == 1                
+                    saidaMatriz = 11;
+                    
+                elseif contains(arquivo, "_L_") == 1                
+                    saidaMatriz = 12;
+                    
+                elseif contains(arquivo, "_M_") == 1                
+                    saidaMatriz = 13;
+                    
+                elseif contains(arquivo, "_N_") == 1                
+                    saidaMatriz = 14;
+                    
+                elseif contains(arquivo, "_O_") == 1                
+                    saidaMatriz = 15;
+                    
+                elseif contains(arquivo, "_P_") == 1                
+                    saidaMatriz = 16;
+                    
+                elseif contains(arquivo, "_Q_") == 1                
+                    saidaMatriz = 17;
+                    
+                elseif contains(arquivo, "_R_") == 1                
+                    saidaMatriz = 18;
+                    
+                elseif contains(arquivo, "_S_") == 1                
+                    saidaMatriz = 19;
+                    
+                elseif contains(arquivo, "_T_") == 1                
+                    saidaMatriz = 20;
+                    
+                elseif contains(arquivo, "_U_") == 1                
+                    saidaMatriz = 21;
+                    
+                elseif contains(arquivo, "_V_") == 1                
+                    saidaMatriz = 22;
+                    
+                elseif contains(arquivo, "_W_") == 1                
+                    saidaMatriz = 23;
+                    
+                elseif contains(arquivo, "_X_") == 1                
+                    saidaMatriz = 24;
+                    
+                elseif contains(arquivo, "_Y_") == 1                
+                    saidaMatriz = 25;
+                    
+                elseif contains(arquivo, "_Z_") == 1                
+                    saidaMatriz = 26;
+                    
                 end
                 if(arquivo == "")
                     continue;
@@ -263,13 +464,31 @@ classdef MLP
                 %Erro Quadradico médio
                 erro_ind = zeros(1,obj.k);
                 for ka = 1 : obj.k
-                    erro_ind(ka) = saidaEsp(ka) - y(ka);
+                    erro_ind(ka) = saida(saidaMatriz,ka) - y(ka);
                 end
                 erroDaEpoca = sum(abs(erro_ind));
 
                 ErroFold = ErroFold + erroDaEpoca;
-                            
+                resultadoObtido = 0;
+                erroResultado = 99999999999999;
+                for i=1:26
+                    erroAtual = 0
+                    for i2=1:obj.k
+                        erroAtual = erroAtual + ((y(i2) - saida(i,i2)) ^ 2);
+                    end
+                    if(erroAtual < erroResultado)
+                        erroResultado = erroAtual;
+                        resultadoObtido = i;
+                    end
+                end
+                MatrizConfusao(resultadoObtido,saidaMatriz) = MatrizConfusao(resultadoObtido,saidaMatriz) + 1;
             end
+            
+            fileID3 = fopen('matrizConfusao.txt', 'w');
+            fprintf(fileID3,strcat("Matriz de Confusão. Execucao em: ", datestr(now), "\r\n"));
+            fprintf(fileID3,"A\tB\tC\tD\tE\tF\tG\tH\tI\tJ\tK\tL\tM\tN\tO\tP\tQ\tR\tS\tT\tU\tV\tW\tX\tY\tZ\r\n");
+            fprintf(fileID3,"%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao);
+            fclose(fileID3);
             
             erro = ErroFold;
         end
