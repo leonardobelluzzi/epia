@@ -3,7 +3,7 @@ clc, clear;
 %Entrada Pegar a entrada
 %================================================================================================================================%
 localIMG = '00001';
-localimg = strcat('C:\Users\leona\Desktop\USP\2017 - 1 Semestre\IA - Sarajane\EP2\dataset1\treinamento\train_5a_',localIMG);
+localimg = strcat('C:\Users\raulg\OneDrive\Documentos\MATLAB\epia\dataset1\treinamento\train_5a_',localIMG);
 localimg = strcat(localimg, '.png');
 disp(localimg);
 img = imread(localimg);
@@ -39,7 +39,7 @@ pesoSaida = 1 - 2. * rand(p, k);
 
 
 %SaidaEsperada
-saidaEsp = [1 -1 -1];
+saidaEsp = [1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
 
 %erro
 erroTotal = zeros(epocaMax);

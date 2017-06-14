@@ -1,6 +1,6 @@
-Execucao em: )14-Jun-2017 00:00:32
-MLP_SPECIFICATION: ('layer 0', 884, 'sigmoid', 'mse')
-MLP_SPECIFICATION: ('layer 1', 3, 'sigmoid', 'mse')
+Execucao em: )14-Jun-2017 10:47:06
+MLP_SPECIFICATION: ('layer 0', 895, 'sigmoid', 'mse')
+MLP_SPECIFICATION: ('layer 1', 26, 'sigmoid', 'mse')
 MLP_OPERATION_ETA_METHOD : FIX
 MLP_OPERATION_ETA_PARAMS : 0.0001
 MLP_OPERATION_ETA_INITIALISATION : ???

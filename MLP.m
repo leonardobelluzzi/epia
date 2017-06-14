@@ -78,11 +78,15 @@ classdef MLP
             %Geração Aleatórias de pesos
             %Bias
             obj.pesoBiasEscondida = 1 - 2. * rand(1, obj.p);
+            pesoBiasEscondida = obj.pesoBiasEscondida;
             obj.pesoBiasSaida = 1 - 2. * rand(1, obj.k);
+            pesoBiasSaida = obj.pesoBiasSaida;
 
             %Escondida
             obj.pesoEscondida = 1 - 2. * rand(obj.n, obj.p);
+            pesoEscondida = obj.pesoEscondida;
             obj.pesoSaida = 1 - 2. * rand(obj.p, obj.k);
+            pesoSaida = obj.pesoSaida;
 
             %erro
             erroTotal = zeros(obj.epocaMax);
@@ -173,11 +177,11 @@ classdef MLP
 
                             for pa = 1 : obj.p
                                 for na = 1 : obj.n
-                                    z_in(pa) = z_in(pa) + obj.entrada(na, 1) * obj.pesoEscondida(na, pa);
+                                    z_in(pa) = z_in(pa) + obj.entrada(na, 1) * pesoEscondida(na, pa);
                                 end
                             end
                             for pa = 1 : obj.p
-                                z_in(pa) = z_in(pa) + 1 * obj.pesoBiasEscondida(1, pa);
+                                z_in(pa) = z_in(pa) + 1 * pesoBiasEscondida(1, pa);
                             end
 
                             %Aplicar a função
@@ -189,11 +193,11 @@ classdef MLP
                             y_in = zeros(1,obj.k);
                             for ka = 1 : obj.k
                                 for pa = 1 : obj.p
-                                    y_in(ka) = y_in(ka) + z(pa) * obj.pesoSaida(pa, ka);
+                                    y_in(ka) = y_in(ka) + z(pa) * pesoSaida(pa, ka);
                                 end
                             end
                             for ka = 1 : obj.k
-                                y_in(ka) = y_in(ka) + 1 * obj.pesoBiasSaida(1, ka);
+                                y_in(ka) = y_in(ka) + 1 * pesoBiasSaida(1, ka);
                             end
 
                             %Aplicar a função
@@ -243,7 +247,7 @@ classdef MLP
                             deltaInJ = zeros(1,obj.p);
                             for pa = 1 : obj.p
                                 for ka = 1 : obj.k
-                                    deltaInJ(1,pa) = deltaInJ(1,pa) + deltaK(ka) * obj.pesoSaida(pa,ka);
+                                    deltaInJ(1,pa) = deltaInJ(1,pa) + deltaK(ka) * pesoSaida(pa,ka);
                                 end
                             end
 
@@ -268,22 +272,22 @@ classdef MLP
                             %Ajustar Rede
                             for na = 1 : obj.n
                                for pa = 1 : obj.p
-                                   obj.pesoEscondida(na, pa) = obj.pesoEscondida(na, pa) + deltaPesoEscondida(na, pa);
+                                   pesoEscondida(na, pa) = pesoEscondida(na, pa) + deltaPesoEscondida(na, pa);
                                end
                             end
 
                              for ka = 1 : obj.k
                                 for pa = 1 : obj.p
-                                    obj.pesoSaida(pa,ka) = obj.pesoSaida(pa,ka) + deltaPesoSaida(pa,ka);
+                                    pesoSaida(pa,ka) = pesoSaida(pa,ka) + deltaPesoSaida(pa,ka);
                                 end
                              end
 
                              for pa = 1 : obj.p
-                                obj.pesoBiasEscondida(pa) = obj.pesoBiasEscondida(pa) + deltaPesoBiasEscondida(pa);
+                                pesoBiasEscondida(pa) = pesoBiasEscondida(pa) + deltaPesoBiasEscondida(pa);
                              end
 
                              for a = 1 : obj.k
-                                obj.pesoBiasSaida(ka) = obj.pesoBiasSaida(ka) + deltaPesoSaidaBias(ka);
+                                pesoBiasSaida(ka) = pesoBiasSaida(ka) + deltaPesoSaidaBias(ka);
                              end
                         end
                     end
@@ -304,11 +308,20 @@ classdef MLP
             erroTot = erroTot / erros;
                 
             fprintf(fileID, strcat(num2str(erroTot),";"));
+            obj.pesoSaida = pesoSaida;
+            obj.pesoEscondida = pesoEscondida;
+            obj.pesoBiasSaida = pesoBiasSaida;
+            obj.pesoBiasEscondida = pesoBiasEscondida;
             result = obj;
         end
         
         function erro = Teste(obj, dadosEntrada, linha)
             ErroFold = 0;
+            
+            pesoSaida = obj.pesoSaida;
+            pesoEscondida = obj.pesoEscondida;
+            pesoBiasSaida = obj.pesoBiasSaida;
+            pesoBiasEscondida = obj.pesoBiasEscondida;
             
             saida = [[1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1];
                     [-1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]; 
@@ -432,11 +445,11 @@ classdef MLP
 
                 for pa = 1 : obj.p
                     for na = 1 : obj.n
-                        z_in(pa) = z_in(pa) + obj.entrada(na, 1) * obj.pesoEscondida(na, pa);
+                        z_in(pa) = z_in(pa) + obj.entrada(na, 1) * pesoEscondida(na, pa);
                     end
                 end
                 for pa = 1 : obj.p
-                    z_in(pa) = z_in(pa) + 1 * obj.pesoBiasEscondida(1, pa);
+                    z_in(pa) = z_in(pa) + 1 * pesoBiasEscondida(1, pa);
                 end
 
                 %Aplicar a função
@@ -448,11 +461,11 @@ classdef MLP
                 y_in = zeros(1,obj.k);
                 for ka = 1 : obj.k
                     for pa = 1 : obj.p
-                        y_in(ka) = y_in(ka) + z(pa) * obj.pesoSaida(pa, ka);
+                        y_in(ka) = y_in(ka) + z(pa) * pesoSaida(pa, ka);
                     end
                 end
                 for ka = 1 : obj.k
-                    y_in(ka) = y_in(ka) + 1 * obj.pesoBiasSaida(1, ka);
+                    y_in(ka) = y_in(ka) + 1 * pesoBiasSaida(1, ka);
                 end
 
                 %Aplicar a função
@@ -484,10 +497,35 @@ classdef MLP
                 MatrizConfusao(resultadoObtido,saidaMatriz) = MatrizConfusao(resultadoObtido,saidaMatriz) + 1;
             end
             
-            fileID3 = fopen('matrizConfusao.txt', 'w');
+            fileID3 = fopen(strcat('matrizConfusao',num2str(linha),'.txt'), 'w');
             fprintf(fileID3,strcat("Matriz de Confusão. Execucao em: ", datestr(now), "\r\n"));
-            fprintf(fileID3,"A\tB\tC\tD\tE\tF\tG\tH\tI\tJ\tK\tL\tM\tN\tO\tP\tQ\tR\tS\tT\tU\tV\tW\tX\tY\tZ\r\n");
-            fprintf(fileID3,"%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao);
+            fprintf(fileID3,"\tA\tB\tC\tD\tE\tF\tG\tH\tI\tJ\tK\tL\tM\tN\tO\tP\tQ\tR\tS\tT\tU\tV\tW\tX\tY\tZ\r\n");
+            fprintf(fileID3,"A\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(1:1,1:26));
+            fprintf(fileID3,"B\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(2:2,1:26));
+            fprintf(fileID3,"C\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(3:3,1:26));
+            fprintf(fileID3,"D\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(4:4,1:26));
+            fprintf(fileID3,"E\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(5:5,1:26));
+            fprintf(fileID3,"F\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(6:6,1:26));
+            fprintf(fileID3,"G\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(7:7,1:26));
+            fprintf(fileID3,"H\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(8:8,1:26));
+            fprintf(fileID3,"I\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(9:9,1:26));
+            fprintf(fileID3,"J\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(10:10,1:26));
+            fprintf(fileID3,"K\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(11:11,1:26));
+            fprintf(fileID3,"L\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(12:12,1:26));
+            fprintf(fileID3,"M\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(13:13,1:26));
+            fprintf(fileID3,"N\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(14:14,1:26));
+            fprintf(fileID3,"O\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(15:15,1:26));
+            fprintf(fileID3,"P\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(16:16,1:26));
+            fprintf(fileID3,"Q\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(17:17,1:26));
+            fprintf(fileID3,"R\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(18:18,1:26));
+            fprintf(fileID3,"S\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(19:19,1:26));
+            fprintf(fileID3,"T\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(20:20,1:26));
+            fprintf(fileID3,"U\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(21:21,1:26));
+            fprintf(fileID3,"V\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(22:22,1:26));
+            fprintf(fileID3,"W\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(23:23,1:26));
+            fprintf(fileID3,"X\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(24:24,1:26));
+            fprintf(fileID3,"Y\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(25:25,1:26));
+            fprintf(fileID3,"Z\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\r\n", MatrizConfusao(26:26,1:26));
             fclose(fileID3);
             
             erro = ErroFold;
