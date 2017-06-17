@@ -73,7 +73,7 @@ classdef KFoldCrossValidation
             end
             fprintf(fileID1,strcat("MLP_OPERATION_ETA_METHOD : ", Decai, "\r\n"));
             fprintf(fileID1,strcat("MLP_OPERATION_ETA_PARAMS : ", num2str(alpha), "\r\n"));
-            fprintf(fileID1,strcat("MLP_OPERATION_ETA_INITIALISATION : ", '???', "\r\n"));
+            fprintf(fileID1,strcat("MLP_OPERATION_ETA_INITIALISATION : ", 'LBP', "\r\n"));
             fprintf(fileID1,strcat("MLP_OPERATION_MAX_EPOCHS : ", num2str(maxEpocas), "\r\n"));
             fprintf(fileID1,strcat("MLP_OPERATION_MIN_EPOCHS : ", "1", "\r\n"));
             fprintf(fileID1,strcat("MLP_OPERATION_STOP_WINDOW : ", num2str(erroMin), "\r\n"));

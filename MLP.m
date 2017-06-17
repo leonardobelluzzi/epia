@@ -50,11 +50,11 @@ classdef MLP
             %Entrada Pegar a entrada
             %================================================================================================================================%
             localIMG = '00001';
-            localimg = strcat('C:\Users\raulg\OneDrive\Documentos\MATLAB\epia\dataset1\treinamento\train_5a_',localIMG);
+            localimg = strcat('C:\Users\raulg\Downloads\dataset2\dataset2\treinamento\train_5a_',localIMG);
             localimg = strcat(localimg, '.png');
             disp(localimg);
             img = imread(localimg);
-            obj.entrada = HOG(img,16);
+            obj.entrada = LBP(localimg);
             %================================================================================================================================%
             
             %Configuracao Rede
@@ -75,6 +75,9 @@ classdef MLP
             obj.erroMin = erroMin;
             %=============================================%
 
+            fileID5 = fopen('logEpoca.txt', 'w');
+            fprintf(fileID5, strcat("Execucao em: ", datestr(now), "\r\n"));
+            
             %Geração Aleatórias de pesos
             %Bias
             obj.pesoBiasEscondida = 1 - 2. * rand(1, obj.p);
@@ -98,72 +101,82 @@ classdef MLP
                         for j = 1:size(dadosEntrada, 2)
                             arquivo = dadosEntrada(i, j, 1);
                             saidaMatriz = 0;
-                            if contains(arquivo, "_A_") == 1
+                            if contains(arquivo, "_A_") == 1 || contains(arquivo, "_41_") == 1
                                 saidaMatriz = 1;
                                 
-                            elseif contains(arquivo, "_B_") == 1                
+                            elseif contains(arquivo, "_B_") == 1  || contains(arquivo, "_42_") == 1                
                                 saidaMatriz = 2;
                                 
-                            elseif contains(arquivo, "_C_") == 1                
+                            elseif contains(arquivo, "_C_") == 1 || contains(arquivo, "_43_") == 1                
                                 saidaMatriz = 3;
                                 
-                            elseif contains(arquivo, "_D_") == 1                
+                            elseif contains(arquivo, "_D_") == 1 || contains(arquivo, "_44_") == 1                
                                 saidaMatriz = 4;
                                 
-                            elseif contains(arquivo, "_E_") == 1                
+                            elseif contains(arquivo, "_E_") == 1 || contains(arquivo, "_45_") == 1                
                                 saidaMatriz = 5;
                                 
-                            elseif contains(arquivo, "_F_") == 1                
+                            elseif contains(arquivo, "_F_") == 1 || contains(arquivo, "_46_") == 1                
                                 saidaMatriz = 6;
                                 
-                            elseif contains(arquivo, "_G_") == 1                
+                            elseif contains(arquivo, "_G_") == 1 || contains(arquivo, "_47_") == 1                
                                 saidaMatriz = 7;
                                 
-                            elseif contains(arquivo, "_H_") == 1                
+                            elseif contains(arquivo, "_H_") == 1 || contains(arquivo, "_48_") == 1
                                 saidaMatriz = 8;
                                 
-                            elseif contains(arquivo, "_I_") == 1                
+                            elseif contains(arquivo, "_I_") == 1 || contains(arquivo, "_49_") == 1
                                 saidaMatriz = 9;
                                 
-                            elseif contains(arquivo, "_J_") == 1                
+                            elseif contains(arquivo, "_J_") == 1 || contains(arquivo, "_4a_") == 1                
                                 saidaMatriz = 10;
                                 
-                            elseif contains(arquivo, "_K_") == 1                
+                            elseif contains(arquivo, "_K_") == 1 || contains(arquivo, "_4b_") == 1                
                                 saidaMatriz = 11;
                                 
-                            elseif contains(arquivo, "_L_") == 1                
+                            elseif contains(arquivo, "_L_") == 1 || contains(arquivo, "_4c_") == 1                
                                 saidaMatriz = 12;
                                 
-                            elseif contains(arquivo, "_M_") == 1                
+                            elseif contains(arquivo, "_M_") == 1 || contains(arquivo, "_4d_") == 1                
                                 saidaMatriz = 13;
                                 
-                            elseif contains(arquivo, "_N_") == 1                
+                            elseif contains(arquivo, "_N_") == 1 || contains(arquivo, "_4e_") == 1                
                                 saidaMatriz = 14;
                                 
-                            elseif contains(arquivo, "_O_") == 1                
+                            elseif contains(arquivo, "_O_") == 1 || contains(arquivo, "_4f_") == 1                
                                 saidaMatriz = 15;
                                 
-                            elseif contains(arquivo, "_P_") == 1                
+                            elseif contains(arquivo, "_P_") == 1 || contains(arquivo, "_50_") == 1                
                                 saidaMatriz = 16;
                                 
-                            elseif contains(arquivo, "_Q_") == 1                
+                            elseif contains(arquivo, "_Q_") == 1 || contains(arquivo, "_51_") == 1                
                                 saidaMatriz = 17;
-                            elseif contains(arquivo, "_R_") == 1                
+                                
+                            elseif contains(arquivo, "_R_") == 1 || contains(arquivo, "_52_") == 1                
                                 saidaMatriz = 18;
-                            elseif contains(arquivo, "_S_") == 1                
+                                
+                            elseif contains(arquivo, "_S_") == 1 || contains(arquivo, "_53_") == 1               
                                 saidaMatriz = 19;
-                            elseif contains(arquivo, "_T_") == 1                
-                            elseif contains(arquivo, "_U_") == 1                
+                                
+                            elseif contains(arquivo, "_T_") == 1 || contains(arquivo, "_54_") == 1 
+                                saidaMatriz = 20;
+                                
+                            elseif contains(arquivo, "_U_") == 1 || contains(arquivo, "_55_") == 1                
                                 saidaMatriz = 21;
-                            elseif contains(arquivo, "_V_") == 1                
+                                
+                            elseif contains(arquivo, "_V_") == 1 || contains(arquivo, "_56_") == 1                
                                 saidaMatriz = 22;
-                            elseif contains(arquivo, "_W_") == 1                
+                                
+                            elseif contains(arquivo, "_W_") == 1 || contains(arquivo, "_57_") == 1                
                                 saidaMatriz = 23;
-                            elseif contains(arquivo, "_X_") == 1                
+                                
+                            elseif contains(arquivo, "_X_") == 1 || contains(arquivo, "_58_") == 1                
                                 saidaMatriz = 24;
-                            elseif contains(arquivo, "_Y_") == 1                
+                                
+                            elseif contains(arquivo, "_Y_") == 1 || contains(arquivo, "_59_") == 1                
                                 saidaMatriz = 25;
-                            elseif contains(arquivo, "_Z_") == 1                
+                                
+                            elseif contains(arquivo, "_Z_") == 1 || contains(arquivo, "_5a_") == 1                
                                 saidaMatriz = 26;
                             end
                             if(arquivo == "")
@@ -171,7 +184,7 @@ classdef MLP
                             end
                             
                             img = imread(char(arquivo));
-                            obj.entrada = HOG(img,16);
+                            obj.entrada = LBP(char(arquivo));
                             
                             z_in = zeros (1,obj.p);
 
@@ -293,6 +306,7 @@ classdef MLP
                     end
                 end
                 erros = erros + 1;
+                fprintf(fileID5, strcat(num2str(epoca),";",num2str(erroDaEpoca),";",num2str(erroTotal(epoca)),";",num2str(erroTotal(epoca) / size(dadosEntrada, 2)),"\n\r"));
                 %Caso atingir o erro minimo
                 if (erroDaEpoca < erroMin)
                     disp('A rede atingiu o erro minimo: ');
@@ -355,91 +369,90 @@ classdef MLP
             for j = 1:size(dadosEntrada, 2)
                 arquivo = dadosEntrada(linha, j, 1);
                 saidaMatriz = 0;
-                if contains(arquivo, "_A_") == 1
+                if contains(arquivo, "_A_") == 1 || contains(arquivo, "_41_") == 1
                     saidaMatriz = 1;
-                    
-                elseif contains(arquivo, "_B_") == 1                
+
+                elseif contains(arquivo, "_B_") == 1  || contains(arquivo, "_42_") == 1                
                     saidaMatriz = 2;
-                    
-                elseif contains(arquivo, "_C_") == 1                
+
+                elseif contains(arquivo, "_C_") == 1 || contains(arquivo, "_43_") == 1                
                     saidaMatriz = 3;
-                    
-                elseif contains(arquivo, "_D_") == 1                
+
+                elseif contains(arquivo, "_D_") == 1 || contains(arquivo, "_44_") == 1                
                     saidaMatriz = 4;
-                    
-                elseif contains(arquivo, "_E_") == 1                
+
+                elseif contains(arquivo, "_E_") == 1 || contains(arquivo, "_45_") == 1                
                     saidaMatriz = 5;
-                    
-                elseif contains(arquivo, "_F_") == 1                
+
+                elseif contains(arquivo, "_F_") == 1 || contains(arquivo, "_46_") == 1                
                     saidaMatriz = 6;
-                    
-                elseif contains(arquivo, "_G_") == 1                
+
+                elseif contains(arquivo, "_G_") == 1 || contains(arquivo, "_47_") == 1                
                     saidaMatriz = 7;
-                    
-                elseif contains(arquivo, "_H_") == 1                
+
+                elseif contains(arquivo, "_H_") == 1 || contains(arquivo, "_48_") == 1
                     saidaMatriz = 8;
-                    
-                elseif contains(arquivo, "_I_") == 1                
+
+                elseif contains(arquivo, "_I_") == 1 || contains(arquivo, "_49_") == 1
                     saidaMatriz = 9;
-                    
-                elseif contains(arquivo, "_J_") == 1                
+
+                elseif contains(arquivo, "_J_") == 1 || contains(arquivo, "_4a_") == 1                
                     saidaMatriz = 10;
-                    
-                elseif contains(arquivo, "_K_") == 1                
+
+                elseif contains(arquivo, "_K_") == 1 || contains(arquivo, "_4b_") == 1                
                     saidaMatriz = 11;
-                    
-                elseif contains(arquivo, "_L_") == 1                
+
+                elseif contains(arquivo, "_L_") == 1 || contains(arquivo, "_4c_") == 1                
                     saidaMatriz = 12;
-                    
-                elseif contains(arquivo, "_M_") == 1                
+
+                elseif contains(arquivo, "_M_") == 1 || contains(arquivo, "_4d_") == 1                
                     saidaMatriz = 13;
-                    
-                elseif contains(arquivo, "_N_") == 1                
+
+                elseif contains(arquivo, "_N_") == 1 || contains(arquivo, "_4e_") == 1                
                     saidaMatriz = 14;
-                    
-                elseif contains(arquivo, "_O_") == 1                
+
+                elseif contains(arquivo, "_O_") == 1 || contains(arquivo, "_4f_") == 1                
                     saidaMatriz = 15;
-                    
-                elseif contains(arquivo, "_P_") == 1                
+
+                elseif contains(arquivo, "_P_") == 1 || contains(arquivo, "_50_") == 1                
                     saidaMatriz = 16;
-                    
-                elseif contains(arquivo, "_Q_") == 1                
+
+                elseif contains(arquivo, "_Q_") == 1 || contains(arquivo, "_51_") == 1                
                     saidaMatriz = 17;
-                    
-                elseif contains(arquivo, "_R_") == 1                
+
+                elseif contains(arquivo, "_R_") == 1 || contains(arquivo, "_52_") == 1                
                     saidaMatriz = 18;
-                    
-                elseif contains(arquivo, "_S_") == 1                
+
+                elseif contains(arquivo, "_S_") == 1 || contains(arquivo, "_53_") == 1               
                     saidaMatriz = 19;
-                    
-                elseif contains(arquivo, "_T_") == 1                
+
+                elseif contains(arquivo, "_T_") == 1 || contains(arquivo, "_54_") == 1 
                     saidaMatriz = 20;
-                    
-                elseif contains(arquivo, "_U_") == 1                
+
+                elseif contains(arquivo, "_U_") == 1 || contains(arquivo, "_55_") == 1                
                     saidaMatriz = 21;
-                    
-                elseif contains(arquivo, "_V_") == 1                
+
+                elseif contains(arquivo, "_V_") == 1 || contains(arquivo, "_56_") == 1                
                     saidaMatriz = 22;
-                    
-                elseif contains(arquivo, "_W_") == 1                
+
+                elseif contains(arquivo, "_W_") == 1 || contains(arquivo, "_57_") == 1                
                     saidaMatriz = 23;
-                    
-                elseif contains(arquivo, "_X_") == 1                
+
+                elseif contains(arquivo, "_X_") == 1 || contains(arquivo, "_58_") == 1                
                     saidaMatriz = 24;
-                    
-                elseif contains(arquivo, "_Y_") == 1                
+
+                elseif contains(arquivo, "_Y_") == 1 || contains(arquivo, "_59_") == 1                
                     saidaMatriz = 25;
-                    
-                elseif contains(arquivo, "_Z_") == 1                
+
+                elseif contains(arquivo, "_Z_") == 1 || contains(arquivo, "_5a_") == 1                
                     saidaMatriz = 26;
-                    
                 end
                 if(arquivo == "")
                     continue;
                 end
 
                 img = imread(char(arquivo));
-                obj.entrada = HOG(img,16);
+                obj.entrada = LBP(char(arquivo));
 
                 z_in = zeros (1,obj.p);
 
@@ -485,7 +498,7 @@ classdef MLP
                 resultadoObtido = 0;
                 erroResultado = 99999999999999;
                 for i=1:26
-                    erroAtual = 0
+                    erroAtual = 0;
                     for i2=1:obj.k
                         erroAtual = erroAtual + ((y(i2) - saida(i,i2)) ^ 2);
                     end
